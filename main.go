@@ -27,12 +27,34 @@ type product struct {
 	Description string  `json:"description"`
 	Price       float64 `json:"price"`
 	Count       int     `json:"count"`
+	Image       string  `json:"image"`
 }
 
 var products = []product{
-	{Id: "1", Title: "Очарованье осени", Description: "Данный шедевр навеян маминым борщом", Price: 1500.00, Count: 3},
-	{Id: "2", Title: "Нежный шепот", Description: "Модному явлению asmr посвящается", Price: 2500.00, Count: 2},
-	{Id: "3", Title: "Хронический синусит", Description: "Этот аромат пробудит спящие рецепторы в вашем носу", Price: 1300.00, Count: 1},
+	{
+		Id:          "1",
+		Title:       "Очарованье осени",
+		Description: "Данный шедевр навеян маминым борщом",
+		Price:       1500.00,
+		Count:       3,
+		Image:       "http://localhost:5000/images/flower_1.jpg",
+	},
+	{
+		Id:          "2",
+		Title:       "Нежный шепот",
+		Description: "Модному явлению asmr посвящается",
+		Price:       2500.00,
+		Count:       2,
+		Image:       "http://localhost:5000/images/flower_3.jpg",
+	},
+	{
+		Id:          "3",
+		Title:       "Хронический синусит",
+		Description: "Этот аромат пробудит спящие рецепторы в вашем носу",
+		Price:       1300.00,
+		Count:       1,
+		Image:       "http://localhost:5000/images/flower_5.jpg",
+	},
 }
 
 func getProducts(context *gin.Context) {
