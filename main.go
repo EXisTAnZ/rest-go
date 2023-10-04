@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -11,6 +12,10 @@ func main() {
 	connectionString := "localhost:5000"
 	router := gin.Default()
 	router.GET("/products", getProducts)
+	router.POST("/products", addProduct)
+	router.GET("/products/:id", getProduct)
+	router.PATCH("/products/:id", updateProduct)
+	router.DELETE("/products/:id", deleteProduct)
 	router.Run(connectionString)
 	fmt.Println("Server started at " + connectionString + " port")
 }
@@ -31,4 +36,62 @@ var products = []product{
 
 func getProducts(context *gin.Context) {
 	context.IndentedJSON(http.StatusOK, products)
+}
+
+func getProduct(context *gin.Context) {
+	id := context.Param("id")
+	if product, err := getProductById(id); err != nil {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
+	} else {
+		context.IndentedJSON(http.StatusOK, product)
+	}
+}
+
+func getProductById(id string) (*product, error) {
+	for idx, product := range products {
+		if product.Id == id {
+			return &products[idx], nil
+		}
+	}
+	return nil, errors.New("product not found")
+}
+
+func addProduct(context *gin.Context) {
+	var newProduct product
+	if err := context.BindJSON(&newProduct); err != nil {
+		return
+	}
+	products = append(products, newProduct)
+	context.IndentedJSON(http.StatusCreated, newProduct)
+}
+
+func updateProduct(context *gin.Context) {
+	id := context.Param("id")
+	if product, err := getProductById(id); err != nil {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
+	} else {
+		if err := context.BindJSON(product); err != nil {
+			return
+		}
+		context.IndentedJSON(http.StatusOK, product)
+	}
+}
+
+func deleteProduct(context *gin.Context) {
+	id := context.Param("id")
+	if product, err := getProductById(id); err != nil {
+		context.IndentedJSON(http.StatusNotFound, gin.H{"message": err.Error()})
+	} else {
+		deleteProductById(id)
+		context.IndentedJSON(http.StatusNoContent, product)
+	}
+}
+
+func deleteProductById(id string) {
+	for idx, product := range products {
+		if product.Id == id {
+			products[idx] = products[len(products)-1]
+			products = products[:len(products)-1]
+		}
+	}
 }
