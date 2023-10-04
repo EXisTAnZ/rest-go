@@ -11,6 +11,7 @@ import (
 func main() {
 	connectionString := "localhost:5000"
 	router := gin.Default()
+	router.Static("/images", "./assets/images/")
 	router.GET("/products", getProducts)
 	router.POST("/products", addProduct)
 	router.GET("/products/:id", getProduct)
