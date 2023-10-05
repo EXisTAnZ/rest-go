@@ -5,12 +5,16 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	connectionString := "localhost:5000"
 	router := gin.Default()
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{"http://localhost:4200"}
+	router.Use(cors.New(corsConfig))
 	router.Static("/images", "./assets/images/")
 	router.GET("/products", getProducts)
 	router.POST("/products", addProduct)
