@@ -1,7 +1,13 @@
 # rest-go
 Simple REST API Server on golang
 
-### `/products` endpoint
+## Start
+You can specify server host and port by command line flags `-host` `-port`  
+For example: `go run . -host=localhost -port=3232`  
+Default values if omit them: `-host=localhost -port=5000`
+
+## Endpoints
+### `/products`
 product JSON
 ```json 
 {
@@ -20,7 +26,7 @@ supports methods:
 - PATCH `/products/id` with product in body for update product by id
 - DELETE `/products/id` for delete product by id
 
-### `/images` endpoint
+### `/images`
 static file endpoint
 supports methods:
 - GET  `/images/filename` to get file

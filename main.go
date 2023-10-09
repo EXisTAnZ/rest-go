@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"fmt"
+	"flag"
 	"net/http"
 
 	"github.com/gin-contrib/cors"
@@ -10,7 +10,10 @@ import (
 )
 
 func main() {
-	connectionString := "localhost:5000"
+	port := flag.String("port", "5000", "http port to start server")
+	host := flag.String("host", "localhost", " dns or ip adress of server")
+	flag.Parse()
+	connectionString := *host + ":" + *port
 	router := gin.Default()
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowOrigins = []string{"http://localhost:4200"}
@@ -22,7 +25,6 @@ func main() {
 	router.PATCH("/products/:id", updateProduct)
 	router.DELETE("/products/:id", deleteProduct)
 	router.Run(connectionString)
-	fmt.Println("Server started at " + connectionString + " port")
 }
 
 type product struct {
@@ -38,7 +40,7 @@ var products = []product{
 	{
 		Id:          "1",
 		Title:       "Очарованье осени",
-		Description: "Данный шедевр навеян маминым борщом",
+		Description: "Шедевр, навеянный маминым борщом.",
 		Price:       1500.00,
 		Count:       3,
 		Image:       "http://localhost:5000/images/flower_1.jpg",
@@ -46,7 +48,7 @@ var products = []product{
 	{
 		Id:          "2",
 		Title:       "Нежный шепот",
-		Description: "Модному явлению asmr посвящается",
+		Description: "Модному явлению asmr посвящается.",
 		Price:       2500.00,
 		Count:       2,
 		Image:       "http://localhost:5000/images/flower_2.jpg",
@@ -54,7 +56,7 @@ var products = []product{
 	{
 		Id:          "3",
 		Title:       "Хронический синусит",
-		Description: "Этот аромат пробудит спящие рецепторы в вашем носу",
+		Description: "Этот аромат пробудит спящие рецепторы в вашем носу.",
 		Price:       1300.00,
 		Count:       1,
 		Image:       "http://localhost:5000/images/flower_3.jpg",
@@ -62,7 +64,7 @@ var products = []product{
 	{
 		Id:          "4",
 		Title:       "Дон дракон вилсон",
-		Description: "Зелёный дракон навеет спокойствие и умиротворение",
+		Description: "Зелёный дракон навеет спокойствие и умер от варения.",
 		Price:       900.00,
 		Count:       20,
 		Image:       "http://localhost:5000/images/flower_4.jpg",
@@ -70,7 +72,7 @@ var products = []product{
 	{
 		Id:          "5",
 		Title:       "Небесная стая",
-		Description: "Стая зеленых драконов может очень долго радовать ваше изменненное сознание",
+		Description: "Стая зеленых драконов может очень долго радовать ваше изменненное сознание.",
 		Price:       18000.00,
 		Count:       1,
 		Image:       "http://localhost:5000/images/flower_5.jpg",
@@ -78,7 +80,7 @@ var products = []product{
 	{
 		Id:          "6",
 		Title:       "Экзист о нот экзист",
-		Description: "Здесь просто пустой тексты о красоте цветов для статистики.",
+		Description: "Здесь просто пустой текст о красоте цветов для статистики.",
 		Price:       10300.00,
 		Count:       1,
 		Image:       "http://localhost:5000/images/flower_6.jpg",
@@ -86,7 +88,7 @@ var products = []product{
 	{
 		Id:          "7",
 		Title:       "Гвоздики",
-		Description: "Это не те гвоздики, которые молоточком в стенку забивают",
+		Description: "Это не те гвоздики, которые молоточком в стенку забивают.",
 		Price:       13000.00,
 		Count:       2,
 		Image:       "http://localhost:5000/images/flower_7.jpg",
